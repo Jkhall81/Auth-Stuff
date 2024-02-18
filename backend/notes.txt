@@ -1,0 +1,31 @@
+google oauth.
+
+index.html head needs a google script tag.
+
+<script src='https://accounts.google.com/gsi/client' async></script>
+
+docs link:
+developers.google.com/identity/gsi/web/guides/client-library
+
+useeffect to initialize google client id
+
+useEffect(() => {
+google.accounts.id.initialize({
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    callback: handleSignInWithGoogle
+})
+google.accounts.id.renderButton(
+    document.getElementById('signInDiv'),
+    {theme: 'outline', size: 'large', text: 'continue_with', shape: 'circle', width: '280'}
+)
+}, [])
+
+add <div className='googleContainer' id='signInDiv'></div>
+
+const handleSignInWithGoogle = async (response) => {
+    console.log(response) //google response
+    const payload = response.credential
+    const server_res = await axios.post('http://localhost:8000/api/v1/auth/google, {'access_token': payload})
+
+    // should get back access and refresh token and user full name.  save these as cookies, add a toast message, and redirect the user somewhere.
+}
