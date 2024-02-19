@@ -76,6 +76,7 @@ export const RegisterForm = () => {
                       {...field}
                       placeholder="john.doe@example.com"
                       type="email"
+                      autoComplete="username"
                     />
                   </FormControl>
                   <FormMessage />
@@ -89,7 +90,12 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="John" type="text" />
+                    <Input
+                      {...field}
+                      placeholder="John"
+                      type="text"
+                      autoComplete="given-name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -102,7 +108,12 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Doe" type="text" />
+                    <Input
+                      {...field}
+                      placeholder="Doe"
+                      type="text"
+                      autoComplete="family-name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,7 +126,12 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="********" type="password" />
+                    <Input
+                      {...field}
+                      placeholder="********"
+                      type="password"
+                      autoComplete="new-password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -128,7 +144,12 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="********" type="password" />
+                    <Input
+                      {...field}
+                      placeholder="********"
+                      type="password"
+                      autoComplete="new-password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

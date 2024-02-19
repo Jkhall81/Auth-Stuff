@@ -1,5 +1,6 @@
 "use client";
 
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { fetcher } from "@/lib/apiUtils";
@@ -37,13 +38,21 @@ export const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     try {
-      const response = await fetcher<{ access_token: string }>(
-        apiEndpoint,
-        "POST",
-        values
-      );
+      const response = await fetcher<{
+        email: string;
+        access_token: string;
+        refresh_token: string;
+        full_name: string;
+      }>(apiEndpoint, "POST", values);
       if (response.access_token) {
         setSubmissionStatus("success");
+        const userObjString = JSON.stringify({
+          email: response.email,
+          full_name: response.full_name,
+          access_token: response.access_token,
+          refresh_token: response.refresh_token,
+        });
+        Cookies.set("userObj", userObjString);
         form.reset();
         setTimeout(() => {
           router.push("/");
@@ -76,6 +85,7 @@ export const LoginForm = () => {
                       {...field}
                       placeholder="john.doe@example.com"
                       type="email"
+                      autoComplete="username"
                     />
                   </FormControl>
                   <FormMessage />
@@ -89,7 +99,12 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="********" type="password" />
+                    <Input
+                      {...field}
+                      placeholder="********"
+                      type="password"
+                      autoComplete="current-password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
