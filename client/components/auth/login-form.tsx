@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -39,6 +40,7 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     try {
       const response = await fetcher<{
+        user_id: string;
         email: string;
         access_token: string;
         refresh_token: string;
@@ -47,12 +49,14 @@ export const LoginForm = () => {
       if (response.access_token) {
         setSubmissionStatus("success");
         const userObjString = JSON.stringify({
+          user_id: response.user_id,
           email: response.email,
           full_name: response.full_name,
           access_token: response.access_token,
           refresh_token: response.refresh_token,
         });
         Cookies.set("userObj", userObjString);
+        signIn("credentials", response);
         form.reset();
         setTimeout(() => {
           router.push("/");

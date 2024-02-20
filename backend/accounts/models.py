@@ -10,6 +10,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email=models.EmailField(max_length=255, unique=True, verbose_name=_("Email Address"))
     first_name=models.CharField(max_length=100, verbose_name=("First Name"))
     last_name=models.CharField(max_length=100, verbose_name=("Last Name"))
+    role=models.CharField(max_length=100, default='USER')
     is_staff=models.BooleanField(default=False)
     is_superuser=models.BooleanField(default=False)
     is_verified=models.BooleanField(default=False)

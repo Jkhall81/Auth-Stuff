@@ -14,11 +14,8 @@ export default auth((req) => {
   const { nextUrl } = req;
   const cookie = cookies();
   const userObjCookie: any = cookie.get("userObj");
-  const userObj = JSON.parse(userObjCookie.value);
+  // const userObj = JSON.parse(userObjCookie.value);
   const isLoggedIn = !!userObjCookie;
-
-  console.log("isLoggedIn:", isLoggedIn);
-  // console.log(userObj.access_token);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
