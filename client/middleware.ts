@@ -12,6 +12,7 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl } = req;
+
   const cookie = cookies();
   const userObjCookie: any = cookie.get("userObj");
   // const userObj = JSON.parse(userObjCookie.value);

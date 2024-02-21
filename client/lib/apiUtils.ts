@@ -1,5 +1,5 @@
 // utils/api.ts
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 const baseURL = "http://localhost:8000/api/v1/auth/";
 
@@ -27,7 +27,8 @@ export const fetcher = async <T>(
     });
 
     return response.data;
-  } catch (error) {
-    throw new Error("Server response was not ok");
+  } catch (error: any) {
+    console.error("Error in fetcher:", error.response.data);
+    throw error;
   }
 };

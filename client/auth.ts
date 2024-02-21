@@ -30,6 +30,7 @@ export const {
         token.access_token = cookie.access_token;
         token.full_name = cookie.full_name;
         token.refresh_token = cookie.refresh_token;
+        token.role = cookie.role;
       }
       return token;
     },

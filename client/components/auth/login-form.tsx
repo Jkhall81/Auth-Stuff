@@ -25,6 +25,7 @@ import { FormSuccess } from "../form-success";
 
 export const LoginForm = () => {
   const router = useRouter();
+  const [emailUnverified, setEmailUnverified] = useState<boolean | null>(null);
   const [submissionStatus, setSubmissionStatus] = useState<
     "none" | "success" | "error"
   >("none");
@@ -40,12 +41,14 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     try {
       const response = await fetcher<{
+        role: string;
         user_id: string;
         email: string;
         access_token: string;
         refresh_token: string;
         full_name: string;
       }>(apiEndpoint, "POST", values);
+
       if (response.access_token) {
         setSubmissionStatus("success");
         const userObjString = JSON.stringify({
@@ -54,6 +57,7 @@ export const LoginForm = () => {
           full_name: response.full_name,
           access_token: response.access_token,
           refresh_token: response.refresh_token,
+          role: response.role,
         });
         Cookies.set("userObj", userObjString);
         signIn("credentials", response);
@@ -62,8 +66,11 @@ export const LoginForm = () => {
           router.push("/");
         }, 2000);
       }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    } catch (error: any) {
+      console.error("login form:", error.response?.data);
+      if (error.response?.data.detail === "Email is not verified!") {
+        setEmailUnverified(true);
+      }
       setSubmissionStatus("error");
     }
   };
@@ -117,7 +124,11 @@ export const LoginForm = () => {
           </div>
           <FormError
             submissionStatus={submissionStatus}
-            message="Invalid Credentials"
+            message={
+              emailUnverified
+                ? "Email has not been verified!"
+                : "Invalid Credentials"
+            }
           />
           <FormSuccess
             submissionStatus={submissionStatus}
