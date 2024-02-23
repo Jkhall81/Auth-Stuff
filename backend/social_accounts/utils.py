@@ -35,7 +35,7 @@ def register_social_user(provider, email, first_name, last_name):
             result = login_social_user(email, settings.SOCIAL_AUTH_PASSWORD)
             return result
         else:
-            return AuthenticationFailed(
+            raise AuthenticationFailed(
                 detail=f'Please continue your login with {user[0].auth_provider}'
             )
     else:

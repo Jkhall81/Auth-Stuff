@@ -16,7 +16,7 @@ export default auth((req) => {
   const cookie = cookies();
   const userObjCookie: any = cookie.get("userObj");
   // const userObj = JSON.parse(userObjCookie.value);
-  const isLoggedIn = !!userObjCookie;
+  const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
